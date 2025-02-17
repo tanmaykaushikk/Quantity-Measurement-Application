@@ -7,18 +7,18 @@ const QuantityMeasurement = ({ navigation }) => {
   const [selectedUnit, setSelectedUnitOne] = useState('°C');
   const [selectedUnitTwo, setSelectedUnitTwo] = useState('°F');
   const [text, setText] = useState('');
-  const [convertedValue, setConvertedValue] = useState('')
+  const [convertedValue, setConvertedValue] = useState('');
 
   const resetText = () => {
     setText('');
-  }
+  };
 
   const convertTemperature = () => {
-    const inputValue = parseFloat(text)
+    const inputValue = parseFloat(text);
 
     if (isNaN(inputValue)) {
       setConvertedValue('Invalid Input');
-      return
+      return;
     }
 
     let finalValue = inputValue;
@@ -38,19 +38,17 @@ const QuantityMeasurement = ({ navigation }) => {
     }
 
     setConvertedValue(finalValue.toFixed(2).toString());
-  }
+  };
 
   return (
-    <View style={styles.rootContainer}>
-      <View style={styles.headingContainer}>
-        <Text style={styles.heading}>Quantity Measurement</Text>
-      </View>
-
-      <View style={styles.subHeadingContainer}>
-        <Text style={styles.subHeadingTwo}>From</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.textOne}>Quantity Measurement</Text>
+        <Text style={styles.textTwo}>Converter</Text>
       </View>
 
       <View style={styles.pickerContainer}>
+        <Text style={styles.label}>From</Text>
         <Picker
           selectedValue={selectedUnit}
           onValueChange={(value) => setSelectedUnitOne(value)}
@@ -62,11 +60,8 @@ const QuantityMeasurement = ({ navigation }) => {
         </Picker>
       </View>
 
-      <View style={styles.subHeadingContainer}>
-        <Text style={styles.subHeadingTwo}>To</Text>
-      </View>
-
       <View style={styles.pickerContainer}>
+        <Text style={styles.label}>To</Text>
         <Picker
           selectedValue={selectedUnitTwo}
           onValueChange={(value) => setSelectedUnitTwo(value)}
@@ -78,33 +73,32 @@ const QuantityMeasurement = ({ navigation }) => {
         </Picker>
       </View>
 
-      <View style={{ width: '90%', marginLeft: 22, }}>
+      <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
+          placeholder="Enter value"
+          placeholderTextColor="#888"
           value={text}
           onChangeText={setText}
+          keyboardType="numeric"
         />
       </View>
 
-      <View style={{ margin: 50, marginLeft: 100 }}>
-        <TouchableOpacity onPress={resetText}>
-          <View style={styles.resetButton}>
-            <Text style={{ textAlign: 'center', color: '#dfebe2', fontSize: 30 }}>Reset</Text>
-          </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={resetText}>
+          <Text style={styles.buttonText}>Reset</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={convertTemperature}>
+          <Text style={styles.buttonText}>Convert</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={{ margin: -20, marginLeft: 100 }}>
-        <TouchableOpacity onPress={convertTemperature}>
-          <View style={styles.resetButton}>
-            <Text style={{ textAlign: 'center', color: '#dfebe2', fontSize: 30 }}>Convert</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      <View style={{ width: '90%', marginLeft: 22, margin: 20 }}>
+      <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
+          placeholder="Result"
+          placeholderTextColor="#888"
           value={convertedValue ? `${convertedValue} ${selectedUnitTwo}` : ''}
           editable={false}
         />
@@ -116,53 +110,79 @@ const QuantityMeasurement = ({ navigation }) => {
 export default QuantityMeasurement;
 
 const styles = StyleSheet.create({
-  rootContainer: {
-    backgroundColor: '#1E1E2C',
+  container: {
     flex: 1,
-    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1E1E2C',
+    paddingHorizontal: 20,
   },
-  headingContainer: {
-    marginTop: 50,
+  header: {
+    alignItems: 'center',
+    marginBottom: 30,
   },
-  heading: {
-    fontSize: 35,
-    color: 'black',
-    textAlign: 'center',
-    fontWeight: '700',
+  textOne: {
+    fontSize: 38,
+    fontWeight: 'bold',
+    color: '#FFD700',
   },
-  subHeadingContainer: {
-    marginTop: 30,
-  },
-  subHeadingTwo: {
-    textAlign: 'center',
+  textTwo: {
+    fontSize: 38,
     fontWeight: '600',
-    fontSize: 15,
-    color: '#9d8189',
+    color: '#FFD700',
+    marginLeft: -170,
   },
   pickerContainer: {
-    marginTop: 20,
-    marginHorizontal: 20,
-    borderWidth: 1,
-    borderColor: '#9d8189',
-    borderRadius: 5,
-    backgroundColor: '#ffffff',
+    width: '100%',
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FFD700',
+    marginBottom: 10,
   },
   picker: {
+    backgroundColor: '#FFD700',
+    borderRadius: 30,
     height: 55,
+    color: '#1E1E2C',
+  },
+  inputContainer: {
     width: '100%',
-    color: '#4F646F',
+    marginBottom: 20,
   },
   input: {
-    backgroundColor: 'white',
-    marginTop: 40,
+    backgroundColor: '#FFD700',
     width: '100%',
-    borderRadius: 20,
+    height: 55,
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    fontSize: 18,
+    color: '#1E1E2C',
   },
-  resetButton: {
-    width: 200,
-    backgroundColor: '#204028',
-    height: 50,
-    borderRadius: 45,
-    justifyContent: 'center'
-  }
+  buttonContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#FFD700',
+    width: '48%',
+    height: 55,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1E1E2C',
+  },
 });
